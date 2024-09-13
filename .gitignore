@@ -1,0 +1,8 @@
+logs
+node_modules
+
+*.log
+*.env
+*.local
+.prettierrc.json
+.DS_Store
