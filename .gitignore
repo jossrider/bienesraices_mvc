@@ -1,6 +1,6 @@
 logs
 node_modules
-public/**/*.jpg
+*.jpg
 *.log
 *.env
 *.local
