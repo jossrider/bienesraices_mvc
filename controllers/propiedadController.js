@@ -3,6 +3,9 @@ import { validationResult } from 'express-validator'
 import { Categoria, Precio, Propiedad } from '../models/index.js'
 
 const admin = async (req, res) => {
+  // Leer QueryString
+  console.log(req.query)
+
   const { id } = req.usuario
 
   const propiedades = await Propiedad.findAll({
@@ -253,4 +256,20 @@ const eliminar = async (req, res) => {
   res.redirect('/mis-propiedades')
 }
 
-export { admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar }
+// Muestra una propiedad
+const mostrarPropiedad = async (req, res) => {
+  const { id } = req.params
+  // Comprobar que la propiedad exista
+  const propiedad = await Propiedad.findByPk(id, {
+    include: [
+      { model: Categoria, as: 'categoria' },
+      { model: Precio, as: 'precio' },
+    ],
+  })
+  if (!propiedad) {
+    return res.redirect('/404')
+  }
+  res.render('propiedades/mostrar', { propiedad, pagina: propiedad.titulo })
+}
+
+export { admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar, mostrarPropiedad }

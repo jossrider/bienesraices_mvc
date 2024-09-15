@@ -20,7 +20,7 @@ block contenido
                 div(class='sm:w-1/4 md:w-1/6')
                   img.w-full.block(src=`uploads/${propiedad.imagen}`, alt=`Imagen propiedad ${propiedad.titulo}`)
                 .space-y-3(class='sm:w-2/4 md:w-3/6 lg:w-4/6')
-                  a.block.text-2xl.font-extrabold.text-indigo-600.truncate(href='#')= propiedad.titulo
+                  a.block.text-2xl.font-extrabold.text-indigo-600.truncate(href=`/propiedades/${propiedad.id}`)= propiedad.titulo
                   p.text-sm.text-black.font-bold= propiedad.categoria.nombre
                   p.text-sm.text-gray-500.font-bold.flex.items-center
                     svg.size-6(xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24', fill='currentColor')
