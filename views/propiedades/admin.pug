@@ -1,4 +1,8 @@
 extends ../layout/admin
+
+block styles
+  meta(name="csrf-token" content= csrfToken)
+
 block contenido
   .py-10
     h1.text-4xl.my-10.font-extrabold.text-center Bienes
@@ -20,7 +24,7 @@ block contenido
                 div(class='sm:w-1/4 md:w-1/6')
                   img.w-full.block(src=`uploads/${propiedad.imagen}`, alt=`Imagen propiedad ${propiedad.titulo}`)
                 .space-y-3(class='sm:w-2/4 md:w-3/6 lg:w-4/6')
-                  a.block.text-2xl.font-extrabold.text-indigo-600.truncate(href=`/propiedades/${propiedad.id}`)= propiedad.titulo
+                  a.block.text-2xl.font-extrabold.text-indigo-600.truncate(href=`/propiedad/${propiedad.id}`)= propiedad.titulo
                   p.text-sm.text-black.font-bold= propiedad.categoria.nombre
                   p.text-sm.text-gray-500.font-bold.flex.items-center
                     svg.size-6(xmlns='http://www.w3.org/2000/svg', viewBox='0 0 24 24', fill='currentColor')
@@ -33,13 +37,15 @@ block contenido
                         clip-rule='evenodd'
                       )
                     = propiedad.precio.nombre
-                .flex.flex-col.gap-2(class='sm:w-1/4 md:w-2/6 lg:flex-1 lg:flex-row')
+                  a(href=`/mensajes/${propiedad.id}` class=`text-sm ${propiedad.mensajes.length ? 'text-green-500' : 'text-gray-600'} font-bold`)= `${propiedad.mensajes.length} Mensajes ` 
+                    
+                .flex.flex-col.gap-2(class='sm:w-1/4 md:w-2/6 lg:w-1/6 2xl:flex-row')
                   form(action='#') 
-                    input.px-2.py-2.text-xs.leading-5.font-semibold.rounded.w-full(
-                      type='submit',
-                      class=`md:py-1 cursor-pointer ${propiedad.publicado ? 'bg-green-100 text-green-800' :'bg-yellow-100 text-yellow-800'}`,
-                      value=`${propiedad.publicado ? 'Publicado':'No Publicado'}`
-                    )
+                    button.px-2.py-2.text-xs.leading-5.font-semibold.rounded.w-full(
+                      type='button', data-propiedad-id = `${propiedad.id}`
+                      class=`cambiar-estado md:py-1 cursor-pointer ${propiedad.publicado ? 'bg-green-100 text-green-800' :'bg-yellow-100 text-yellow-800'}`,
+                    )=`${propiedad.publicado ? 'Publicado':'No Publicado'}`
+
                   a.px-2.py-2.text-xs.leading-5.font-semibold.rounded.cursor-pointer.bg-indigo-100.text-indigo-800.text-center(
                     href=`/propiedades/editar/${propiedad.id}`,
                     class='md:py-1'
@@ -68,3 +74,6 @@ block contenido
                   a(href=`/mis-propiedades?pagina=${n}` class=` ${paginaActual == n ? 'bg-indigo-50 border-indigo-500 text-indigo-600': 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'} relative inline-flex items-center px-4 py-2 border text-sm font-medium`) #{n++}
     else
       p.text-center No Hay Propiedades
+
+block scripts
+  script(src='/js/cambiarEstado.js')
